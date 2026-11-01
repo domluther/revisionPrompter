@@ -23,6 +23,7 @@ body {
   display: flex;
   align-items: baseline;
   gap: 1rem;
+  flex-wrap: wrap;
   padding: 0.9rem 1.5rem;
   background: #1b2233;
   color: #fff;
@@ -36,6 +37,17 @@ body {
 .tagline {
   color: #aab3c9;
   font-size: 0.9rem;
+}
+.eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.resource-link {
+  font-size: 0.95rem;
 }
 
 .container {
@@ -124,16 +136,77 @@ input[type="number"] {
   padding: 0;
   margin: 0;
 }
+.checklist .rag-topic {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+}
 .checklist label {
   display: flex;
+  flex: 1;
+  align-items: flex-start;
   gap: 0.6rem;
-  padding: 0.3rem 0;
   cursor: pointer;
+}
+.topic-checklist-title {
+  flex: 1;
 }
 .checklist input {
   width: 1.1rem;
   height: 1.1rem;
   margin-top: 0.25rem;
+  flex: 0 0 auto;
+}
+.rag-red {
+  background: #fff0ef;
+}
+.rag-amber {
+  background: #fff7e6;
+}
+.rag-green {
+  background: #edf8ef;
+}
+.rag-select {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+}
+.rag-filter {
+  position: relative;
+}
+.rag-filter summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+.rag-filter summary::after {
+  content: " ▾";
+}
+.rag-filter-menu {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  margin-top: 0.25rem;
+  min-width: 10rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+.rag-filter-menu label {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  cursor: pointer;
 }
 
 .topic {
@@ -168,6 +241,77 @@ input[type="number"] {
 .answers {
   border-left: 5px solid #2e9e5b;
 }
+.answer-section {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.answer-section + .answer-section {
+  margin-top: 1rem;
+}
+.answer-section h2 {
+  margin-bottom: 0.75rem;
+}
+.definitions-section {
+  background: #f7f9ff;
+  border-top: 4px solid var(--accent);
+}
+.key-points-section {
+  background: #f5faf6;
+  border-top: 4px solid #2e9e5b;
+}
+.rag-rating {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fafbfc;
+}
+.rag-rating legend {
+  padding: 0 0.35rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.rag-rating p {
+  margin-top: 0;
+}
+.rag-options {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+.rag-option {
+  display: flex;
+  flex: 1 1 130px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+}
+.rag-option span {
+  font-size: 0.8rem;
+}
+.rag-option[aria-pressed="true"] {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
+.rag-option.rag-red {
+  color: #8c211c;
+}
+.rag-option.rag-amber {
+  color: #704700;
+}
+.rag-option.rag-green {
+  color: #205b34;
+}
+.rag-option.rag-clear {
+  color: var(--muted);
+}
+.rag-save-error {
+  color: #9c2520;
+  font-weight: 600;
+}
 .hint li,
 .answers li {
   margin-bottom: 0.4rem;
@@ -187,6 +331,7 @@ a {
 .bulk {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 details.slr {
   border-top: 1px solid var(--border);

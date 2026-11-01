@@ -483,20 +483,16 @@
       {
         "term": "Virtual memory",
         "definition": "A technique that uses secondary storage to provide the appearance of more main memory than is physically available."
-      },
-      {
-        "term": "Page fault",
-        "definition": "An event that occurs when a process accesses a page that is not currently in physical memory."
       }
     ],
     "points": [
       "The OS divides a process's virtual address space into fixed-size pages; physical RAM is divided into same-sized frames.",
       "A page table maps each virtual page to a physical frame; pages need not occupy contiguous physical locations, reducing external fragmentation.",
       "When RAM is full, the OS can move less-used pages to a backing store (swap/page file) and load a required page into RAM.",
-      "If the requested page is absent, a page fault causes the OS to locate it on secondary storage, select space (possibly evicting another page), load it and update the mapping.",
+      "If the requested page is absent, the OS is responsible for locating it on secondary storage, select space (possibly evicting another page), load it and update the mapping.",
       "Segmentation divides memory into variable-sized logical units; segment tables can record each segment's base and limit and support protection/sharing.",
       "Virtual memory lets larger programs or more processes run than would fit in RAM and improves memory utilisation, but disk access is much slower than RAM.",
-      "Frequent page faults cause thrashing and severe slowdown; virtual memory also needs backing-store space and adds OS management overhead."
+      "Frequent use of virtual memory can cause thrashing and severe slowdown; virtual memory also needs backing-store space and adds OS management overhead."
     ]
   },
   {

@@ -7,7 +7,7 @@ export default function Layout() {
         <Link to="/" className="brand">
           Flipped Recall
         </Link>
-        <span className="tagline">A-Level Computer Science</span>
+        <span className="tagline">OCR A-Level Computer Science | H446</span>
       </header>
       <main>
         <Outlet />

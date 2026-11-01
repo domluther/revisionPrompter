@@ -3,6 +3,71 @@ import { useCallback, useEffect, useState } from "react";
 const WATCHED_KEY = "recall.watched";
 const MINUTES_KEY = "recall.minutes";
 const RECENT_KEY = "recall.recent";
+const RAG_COOKIE = "recall.rag";
+const RAG_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+
+export type RagRating = "red" | "amber" | "green";
+export type TopicRatings = Record<string, RagRating>;
+
+function readTopicRatings(): TopicRatings {
+  if (typeof document === "undefined") return {};
+  const cookie = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${RAG_COOKIE}=`));
+  if (!cookie) return {};
+
+  const ratings: TopicRatings = {};
+  for (const entry of cookie.slice(RAG_COOKIE.length + 1).split(",")) {
+    const separator = entry.lastIndexOf(":");
+    if (separator < 1) continue;
+
+    const id = entry.slice(0, separator);
+    const rating = entry.slice(separator + 1);
+    if (rating === "red" || rating === "amber" || rating === "green") {
+      ratings[id] = rating;
+    }
+  }
+  return ratings;
+}
+
+function writeTopicRatings(ratings: TopicRatings) {
+  if (typeof document === "undefined") return;
+  const value = Object.entries(ratings)
+    .map(([id, rating]) => `${id}:${rating}`)
+    .join(",");
+  // biome-ignore lint/suspicious/noDocumentCookie: Use the widely supported cookie API so ratings persist across browsers.
+  document.cookie = `${RAG_COOKIE}=${value}; max-age=${RAG_COOKIE_MAX_AGE}; path=/; SameSite=Lax`;
+  if (
+    !document.cookie
+      .split("; ")
+      .some((entry) => entry === `${RAG_COOKIE}=${value}`)
+  ) {
+    throw new Error("The topic rating cookie could not be saved.");
+  }
+}
+
+export function useTopicRatings() {
+  const [ratings, setRatings] = useState<TopicRatings>(readTopicRatings);
+  const [saveError, setSaveError] = useState(false);
+
+  const setRating = useCallback(
+    (id: string, rating: RagRating | null) => {
+      const next = { ...ratings };
+      if (rating) next[id] = rating;
+      else delete next[id];
+      try {
+        writeTopicRatings(next);
+        setRatings(next);
+        setSaveError(false);
+      } catch {
+        setSaveError(true);
+      }
+    },
+    [ratings],
+  );
+
+  return { ratings, setRating, saveError };
+}
 
 function read<T>(key: string, fallback: T): T {
   try {
